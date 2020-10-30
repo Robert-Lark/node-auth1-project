@@ -1,20 +1,25 @@
 const db = require("../data/config");
 
 function find() {
-	return db("db");
+	return db("credentials");
+}
+
+function findBy(filter) {
+	return db("credentials").select("id", "name", "password").where(filter);
 }
 
 function findById(id) {
-	return db("db").where("id", id).first();
+	return db("credentials").where("id", id).first();
 }
 
-async function add(user) {
-	const [id] = await db("db").insert(user);
+async function add(data) {
+	const [id] = await db("credentials").insert(data);
 	return findById(id);
 }
 
 module.exports = {
 	add,
-	find,
+    find,
+    findBy,
 	findById,
 };
